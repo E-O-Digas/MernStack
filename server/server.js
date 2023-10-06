@@ -8,6 +8,6 @@ const port= 3000
 conn()
 
 app.use(express.json())
-app.use("/", userRoute)
+app.use("/user", userRoute)
 
 app.listen(port,()=>console.log(`Server running on port ${port}`))
