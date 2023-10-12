@@ -1,13 +1,13 @@
-const express= require('express')
-const userRoute= require("./routes/user.route")
-const conn= require("./database/db")
+import express from "express"
+import conn from "./database/db.js"
+import Router from "./routes/user.route.js"
 
-const app= express()
+const app = express()
 
-const port= 3000
+const port = 3000
 conn()
 
 app.use(express.json())
-app.use("/user", userRoute)
+app.use("/user", Router)
 
-app.listen(port,()=>console.log(`Server running on port ${port}`))
+app.listen(port, () => console.log(`Server running on port ${port}`))

@@ -1,4 +1,4 @@
-const mongoose= require("mongoose")
+import mongoose from "mongoose"
 
 const conn= ()=>{
     console.log("Waiting for connection...")
@@ -11,4 +11,4 @@ const conn= ()=>{
     .catch((err)=>console.log(err))
 }
 
-module.exports= conn
+export default conn

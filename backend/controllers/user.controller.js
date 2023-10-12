@@ -1,5 +1,4 @@
-const mongoose = require("mongoose")
-const userServices = require("../services/user.services")
+import userServices from "../services/user.services.js"
 
 const create = async (req, res) => {
     try {
@@ -86,4 +85,4 @@ const updUserInfo = async (req, res) => {
     }
 }
 
-module.exports = { create, findAll, findById, updUserInfo }
+export { create, findAll, findById, updUserInfo }
