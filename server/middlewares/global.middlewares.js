@@ -1,29 +1,37 @@
-const mongoose= require("mongoose")
-const userServices= require("../services/user.services")
+const mongoose = require("mongoose")
+const userServices = require("../services/user.services")
 
-const validId= async(req ,res ,next)=>{
-    const id= req.params.id
+const validId = async (req, res, next) => {
+    try {
+        const id = req.params.id
 
-    if(!mongoose.Types.ObjectId.isValid(id)){
-        return res.status(400).send({ message:"Id não existe!" })
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).send({ message: "Id não existe!" })
+        }
+
+        next()
+    } catch (err) {
+        res.status(500).send({ message: err.message })
     }
-
-    next()
 }
 
-const validUser= async(req, res, next)=>{
-    const id= req.params.id
+const validUser = async (req, res, next) => {
+    try {
+        const id = req.params.id
 
-    const user= await userServices.findByIdServices(id)
-    
-    if(!user){
-        return res.status(400).send({ message: "Usuário não existe!" })
+        const user = await userServices.findByIdServices(id)
+
+        if (!user) {
+            return res.status(400).send({ message: "Usuário não existe!" })
+        }
+
+        req.id = id
+        req.user = user
+
+        next()
+    } catch (err) {
+        res.status(500).send({ message: err.message })
     }
-
-    req.id= id
-    req.user= user
-
-    next()
 }
 
-module.exports= { validId, validUser }
+module.exports = { validId, validUser }
