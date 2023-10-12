@@ -1,6 +1,6 @@
 const express= require('express')
-const userRoute= require("../server/routes/user.route")
-const conn= require("../server/database/db")
+const userRoute= require("./routes/user.route")
+const conn= require("./database/db")
 
 const app= express()
 
