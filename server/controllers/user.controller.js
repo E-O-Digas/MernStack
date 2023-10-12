@@ -43,39 +43,19 @@ const findAll= async(req,res)=>{
 }
 
 const findById= async(req,res)=>{
-    const id= req.params.id
-
-    if(!mongoose.Types.ObjectId.isValid(id)){
-        return res.status(400).send({message:"Id não existe!"})
-    }
-
-    const user= await userServices.findByIdServices(id)
-
-    if(!user){
-        return res.status(400).send({message:"Usuário não existe!"})
-    }
-    
-    res.send(user)
+    const user= req.user
+    res.send(user) 
 }
 
-const updUserInfo= async(req,res)=>{
-    const id= req.params.id
+const updUserInfo= async(req, res)=>{
+    const {id, user}= req
+
     const { name, username, email, password, image, background, avatar } = req.body
     
     if(!name && !username && !email && !password && !image && !background && !avatar ){
-        res.status(400).send({message: "Campos vazios ou inválidos"})
+        res.status(400).send({ message: "Campos vazios ou inválidos" })
     }
-
-    if(!mongoose.Types.ObjectId.isValid(id)){
-        return res.status(400).send({message:"Id não existe!"})
-    }
-
-    const user= await userServices.findByIdServices(id)
     
-    if(!user){
-        return res.status(400).send({message:"Usuário não existe!"})
-    }
-
     await userServices.updUserInfoServices(
         id,
         name, 
@@ -85,11 +65,9 @@ const updUserInfo= async(req,res)=>{
         image, 
         background, 
         avatar
-    )
+    ) 
 
     res.status(200).send({message:"Usuário atualizado com sucesso!"})
-
-
 }
 
 module.exports= { create, findAll, findById, updUserInfo }
