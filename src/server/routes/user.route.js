@@ -1,12 +1,12 @@
-import express from "express"
+import { Router } from "express"
 import { create, findAll, findById, updUserInfo } from "../controllers/user.controller.js"
 import { validUser, validId } from "../middlewares/global.middlewares.js"
 
-const Router= express.Router() 
+const router = Router()
 
-Router.post("/", create)
-Router.get("/", findAll)
-Router.get("/:id", validId, validUser, findById)
-Router.patch("/:id", validId, validUser, updUserInfo)
+router.post("/", create)
+router.get("/", findAll)
+router.get("/:id", validId, validUser, findById)
+router.patch("/:id", validId, validUser, updUserInfo)
 
-export default Router
+export default router
