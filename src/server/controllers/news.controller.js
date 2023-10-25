@@ -2,6 +2,21 @@ import { findAllServices, createService } from "../services/news.services.js"
 
 const create = async (req, res) => {
     try {
+        const { authorization } = req.headers
+
+        if (!authorization) {
+            return res.status(401)
+        }
+
+        const parts = authorization.split(" ")
+        
+        if(parts.length!==2){
+            return res.status(401)
+        }
+        
+        const [schema, token] = parts
+
+
         const { titulo, texto, imagem } = req.body
 
         if (!titulo || !texto || !imagem) {
@@ -21,10 +36,10 @@ const create = async (req, res) => {
     }
 }
 
-const findAll = async(req, res) => {
+const findAll = async (req, res) => {
     const news = await findAllServices()
-    if(news.length === 0 ){
-        return res.status(400).send({message: "Não há posts no banco de dados!"})
+    if (news.length === 0) {
+        return res.status(400).send({ message: "Não há posts no banco de dados!" })
     }
     res.status(200).send({ news })
 }

@@ -17,7 +17,7 @@ const login = async (req, res) => {
             return res.status(404).send({ message: "Usuário ou Senha inválida!" })
         }
 
-        const token= generateToken(user.id)
+        const token = generateToken(user.id)
 
         res.status(200).send({ message: "Login efetuado!", token: token })
 
