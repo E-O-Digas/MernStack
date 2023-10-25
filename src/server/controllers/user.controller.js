@@ -1,4 +1,4 @@
-import userServices from "../services/user.services.js"
+import {createServices, findAllServices, findByIdServices, updUserInfoServices} from "../services/user.services.js"
 
 const create = async (req, res) => {
     try {
@@ -12,7 +12,7 @@ const create = async (req, res) => {
             res.status(400).send({ err })
         }
 
-        const user = await userServices.createServices(req.body)
+        const user = await createServices(req.body)
 
         if (!user) {
             return res.status(400).send({ message: "Erro na criação do usuário!" })
@@ -37,7 +37,7 @@ const create = async (req, res) => {
 
 const findAll = async (req, res) => {
     try {
-        const users = await userServices.findAllServices()
+        const users = await findAllServices()
 
         if (users.length === 0) {
             return res.status(400).send({ message: "Não há usuários cadastrados" })
@@ -68,7 +68,7 @@ const updUserInfo = async (req, res) => {
             res.status(400).send({ message: "Campos vazios ou inválidos" })
         }
 
-        await userServices.updUserInfoServices(
+        await updUserInfoServices(
             id,
             name,
             username,

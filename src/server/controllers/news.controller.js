@@ -2,21 +2,6 @@ import { findAllServices, createService } from "../services/news.services.js"
 
 const create = async (req, res) => {
     try {
-        const { authorization } = req.headers
-
-        if (!authorization) {
-            return res.status(401)
-        }
-
-        const parts = authorization.split(" ")
-        
-        if(parts.length!==2){
-            return res.status(401)
-        }
-        
-        const [schema, token] = parts
-
-
         const { titulo, texto, imagem } = req.body
 
         if (!titulo || !texto || !imagem) {
@@ -27,7 +12,7 @@ const create = async (req, res) => {
             titulo,
             texto,
             imagem,
-            user: { _id: "652dccdf996ac43ba6803e61" }
+            user: req.userId
         })
 
         res.status(201).send({ message: "Post feito" })
