@@ -1,4 +1,12 @@
-import { findAllServices, createService, countNewsService, topNewsService, findByIdService } from "../services/news.services.js"
+import { 
+    findAllServices, 
+    createService, 
+    countNewsService, 
+    topNewsService, 
+    findByIdService, 
+    searchByTitleService, 
+    findByUserService
+} from "../services/news.services.js"
 
 const create = async (req, res) => {
     try {
@@ -121,9 +129,72 @@ const findById = async (req, res) => {
             }
         })
 
-    } catch (error) {
+    } catch (err) {
         return res.status(500).send({ message: err.message })
     }
 }
 
-export { findAll, create, topNews, findById }
+const searchByTitle = async (req, res) => {
+    try {
+        const { title } = req.query
+
+        const news = await searchByTitleService(title)
+
+        if (news.length === 0) {
+            return res.status(400).send({ message: "Esse título não existe" })
+        }
+
+        res.status(200).send({
+            result: news.map((newsItem) => ({
+                id: newsItem._id,
+                titulo: newsItem.titulo,
+                texto: newsItem.texto,
+                imagem: newsItem.imagem,
+                likes: newsItem.likes,
+                comentarios: newsItem.comentarios,
+                name: newsItem.user.name,
+                username: newsItem.user.username,
+                avatar: newsItem.user.avatar
+            }))
+        })
+
+
+
+    } catch (err) {
+        return res.status(500).send({ message: err.message })
+    }
+}
+
+const findByUser = async (req, res) => {
+    try {
+        const id = req.userId
+
+        const news= await findByUserService(id)
+
+        res.status(200).send({
+            result: news.map((newsItem) => ({
+                id: newsItem._id,
+                titulo: newsItem.titulo,
+                texto: newsItem.texto,
+                imagem: newsItem.imagem,
+                likes: newsItem.likes,
+                comentarios: newsItem.comentarios,
+                name: newsItem.user.name,
+                username: newsItem.user.username,
+                avatar: newsItem.user.avatar
+            }))
+        })
+
+    } catch (err) {
+        return res.status(500).send({ message: err.message })
+    }
+}
+
+export {
+    findAll,
+    create,
+    topNews,
+    findById,
+    searchByTitle,
+    findByUser
+}
