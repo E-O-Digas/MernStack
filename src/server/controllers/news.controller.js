@@ -1,4 +1,4 @@
-import { findAllServices, createService, countNewsService } from "../services/news.services.js"
+import { findAllServices, createService, countNewsService, topNewsService, findByIdService } from "../services/news.services.js"
 
 const create = async (req, res) => {
     try {
@@ -75,4 +75,55 @@ const findAll = async (req, res) => {
     }
 }
 
-export { findAll, create }
+const topNews = async (req, res) => {
+    try {
+        const topNews = await topNewsService()
+
+        if (!topNews) {
+            return res.status(400).send({ message: "Não há notícias..." })
+        }
+
+        res.send({
+            news: {
+                id: topNews._id,
+                titulo: topNews.titulo,
+                texto: topNews.texto,
+                imagem: topNews.imagem,
+                likes: topNews.likes,
+                comentarios: topNews.comentarios,
+                name: topNews.user.name,
+                username: topNews.user.username,
+                avatar: topNews.user.avatar
+            }
+        })
+    } catch (err) {
+        res.status(500).send({ message: err.message })
+    }
+}
+
+const findById = async (req, res) => {
+    try {
+        const { id } = req.params
+
+        const news = await findByIdService(id)
+
+        res.status(200).send({
+            news: {
+                id: news._id,
+                titulo: news.titulo,
+                texto: news.texto,
+                imagem: news.imagem,
+                likes: news.likes,
+                comentarios: news.comentarios,
+                name: news.user.name,
+                username: news.user.username,
+                avatar: news.user.avatar
+            }
+        })
+
+    } catch (error) {
+        return res.status(500).send({ message: err.message })
+    }
+}
+
+export { findAll, create, topNews, findById }
