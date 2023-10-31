@@ -1,4 +1,8 @@
-import {createServices, findAllServices, findByIdServices, updUserInfoServices} from "../services/user.services.js"
+import {
+    createServices, 
+    findAllServices, 
+    updUserInfoServices
+} from "../services/user.services.js"
 
 const create = async (req, res) => {
     try {

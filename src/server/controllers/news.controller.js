@@ -1,11 +1,12 @@
-import { 
-    findAllServices, 
-    createService, 
-    countNewsService, 
-    topNewsService, 
-    findByIdService, 
-    searchByTitleService, 
-    findByUserService
+import {
+    findAllServices,
+    createServices,
+    countNewsServices,
+    topNewsServices,
+    findByIdServices,
+    searchByTitleServices,
+    findByUserServices,
+    updateServices
 } from "../services/news.services.js"
 
 const create = async (req, res) => {
@@ -16,7 +17,7 @@ const create = async (req, res) => {
             return res.status(400).send({ message: "Campos vazios ou inválidos!" })
         }
 
-        await createService({
+        await createServices({
             titulo,
             texto,
             imagem,
@@ -47,7 +48,7 @@ const findAll = async (req, res) => {
 
 
         const news = await findAllServices(offset, limit)
-        const total = await countNewsService()
+        const total = await countNewsServices()
         const currUrl = req.baseUrl
 
         const next = offset + limit
@@ -85,7 +86,7 @@ const findAll = async (req, res) => {
 
 const topNews = async (req, res) => {
     try {
-        const topNews = await topNewsService()
+        const topNews = await topNewsServices()
 
         if (!topNews) {
             return res.status(400).send({ message: "Não há notícias..." })
@@ -113,7 +114,7 @@ const findById = async (req, res) => {
     try {
         const { id } = req.params
 
-        const news = await findByIdService(id)
+        const news = await findByIdServices(id)
 
         res.status(200).send({
             news: {
@@ -138,7 +139,7 @@ const searchByTitle = async (req, res) => {
     try {
         const { title } = req.query
 
-        const news = await searchByTitleService(title)
+        const news = await searchByTitleServices(title)
 
         if (news.length === 0) {
             return res.status(400).send({ message: "Esse título não existe" })
@@ -169,7 +170,7 @@ const findByUser = async (req, res) => {
     try {
         const id = req.userId
 
-        const news= await findByUserService(id)
+        const news = await findByUserServices(id)
 
         res.status(200).send({
             result: news.map((newsItem) => ({
@@ -190,11 +191,36 @@ const findByUser = async (req, res) => {
     }
 }
 
+const update = async (req, res) => {
+    try {
+        const { titulo, texto, imagem } = req.body
+        const { id } = req.params
+
+        if (!titulo && !texto && !imagem) {
+            res.status(400).send({ messagem: "Campo vazio ou inválido!" })
+        }
+
+        const news = await findByIdServices(id)
+
+        if (news.user._id != req.userId) {
+            return res.status(401).send({ message: "Esse post não é seu!" })
+        }
+
+        await updateServices(id, titulo, texto, imagem)
+
+        res.status(200).send({message: "Post atualizado"})
+
+    } catch (err) {
+        return res.status(500).send(err.message)
+    }
+}
+
 export {
     findAll,
     create,
     topNews,
     findById,
     searchByTitle,
-    findByUser
+    findByUser,
+    update
 }

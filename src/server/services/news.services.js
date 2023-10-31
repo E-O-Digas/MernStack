@@ -1,17 +1,17 @@
 import News from "../models/News.js"
 
-const createService = (body) => News.create(body)
+const createServices = (body) => News.create(body)
 
 const findAllServices = (offset, limit) =>
     News.find({}).sort({ _id: -1 }).skip(offset).limit(limit).populate("user")
 
-const countNewsService = () => News.countDocuments()
+const countNewsServices = () => News.countDocuments()
 
-const topNewsService = () => News.findOne({}).sort({ _id: "-1" }).populate("user")
+const topNewsServices = () => News.findOne({}).sort({ _id: "-1" }).populate("user")
 
-const findByIdService = (id) => News.findById({ _id: id }).populate("user")
+const findByIdServices = (id) => News.findById({ _id: id }).populate("user")
 
-const searchByTitleService = (title) => News.find({
+const searchByTitleServices = (title) => News.find({
     titulo: {
         $regex:
             `${title || ""}`,
@@ -19,14 +19,20 @@ const searchByTitleService = (title) => News.find({
     }
 }).sort({ _id: -1 }).populate("user")
 
-const findByUserService = (id) => News.find({ user: id }).sort({ _id: -1 }).populate("user")
+const findByUserServices = (id) => News.find({ user: id }).sort({ _id: -1 }).populate("user")
+
+const updateServices = (id, titulo, texto, imagem) => News.findOneAndUpdate(
+    { _id: id },
+    { titulo, texto, imagem },
+    { rawResult: true })
 
 export {
-    createService,
+    createServices,
     findAllServices,
-    countNewsService,
-    topNewsService,
-    findByIdService,
-    searchByTitleService,
-    findByUserService
+    countNewsServices,
+    topNewsServices,
+    findByIdServices,
+    searchByTitleServices,
+    findByUserServices,
+    updateServices
 }
