@@ -26,7 +26,15 @@ const updateServices = (id, titulo, texto, imagem) => News.findOneAndUpdate(
     { titulo, texto, imagem },
     { rawResult: true })
 
-const deletService = (id) => News.findOneAndDelete({ _id: id })
+const deletServices = (id) => News.findOneAndDelete({ _id: id })
+
+const likeNewsServices = (id, userId) => News.findOneAndUpdate(
+    { _id: id, "likes.userId": { $nin: [userId] } },
+    { $push: { likes: { userId, createdAt: new Date() } } })
+
+const deletLikeNewsServices = (id, userId) => News.findOneAndUpdate(
+    { _id: id },
+    { $pull: { likes: { userId } } })
 
 export {
     createServices,
@@ -37,5 +45,7 @@ export {
     searchByTitleServices,
     findByUserServices,
     updateServices,
-    deletService
+    deletServices,
+    likeNewsServices,
+    deletLikeNewsServices
 }

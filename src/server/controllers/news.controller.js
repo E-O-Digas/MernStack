@@ -7,7 +7,9 @@ import {
     searchByTitleServices,
     findByUserServices,
     updateServices,
-    deletService
+    deletServices,
+    likeNewsServices,
+    deletLikeNewsServices
 } from "../services/news.services.js"
 
 const create = async (req, res) => {
@@ -180,7 +182,7 @@ const findByUser = async (req, res) => {
         const id = req.userId
 
         if (!id) {
-            return res.status(404).send({ message: "Este post não existe" })
+            return res.status(404).send({ message: "Voçe não está logado" })
         }
 
         const news = await findByUserServices(id)
@@ -207,7 +209,7 @@ const findByUser = async (req, res) => {
 const update = async (req, res) => {
     try {
         const { titulo, texto, imagem } = req.body
-        
+
         const { id } = req.params
 
         if (!id) {
@@ -236,16 +238,47 @@ const update = async (req, res) => {
 const delet = async (req, res) => {
     const { id } = req.params
 
+    if (!id) {
+        return res.status(404).send({ message: "Este post não existe" })
+    }
+
+
     const news = await findByIdServices(id)
 
     if (news.user._id != req.userId) {
         return res.status(401).send({ message: "Esse post não é seu!" })
     }
 
-    await deletService(id)
+    await deletServices(id)
 
     res.status(200).send({ message: "Post deletado" })
 
+}
+
+const likeNews = async (req, res) => {
+    try {
+        const { id } = req.params
+        const userId = req.userId
+
+        if (!id) {
+            return res.status(404).send({ message: "Este post não existe" })
+        }
+
+        if (!userId) {
+            return res.status(401).send({ message: "Voçe não está logado" })
+        }
+
+        const likedNews = await likeNewsServices(id, userId)
+
+        if (!likedNews) {
+            await deletLikeNewsServices(id, userId)
+            return res.status(200).send({ message: "Voce descurtiu este post" })
+        }
+
+        res.status(200).send({ message: "Voce curtiu este post" })
+    } catch (err) {
+        return res.status(500).send({ message: err.message })
+    }
 }
 
 export {
@@ -256,5 +289,6 @@ export {
     searchByTitle,
     findByUser,
     update,
-    delet
+    delet,
+    likeNews
 }
