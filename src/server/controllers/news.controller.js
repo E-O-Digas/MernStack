@@ -6,7 +6,8 @@ import {
     findByIdServices,
     searchByTitleServices,
     findByUserServices,
-    updateServices
+    updateServices,
+    deletService
 } from "../services/news.services.js"
 
 const create = async (req, res) => {
@@ -114,6 +115,10 @@ const findById = async (req, res) => {
     try {
         const { id } = req.params
 
+        if (!id) {
+            return res.status(404).send({ message: "Este post não existe" })
+        }
+
         const news = await findByIdServices(id)
 
         res.status(200).send({
@@ -138,6 +143,10 @@ const findById = async (req, res) => {
 const searchByTitle = async (req, res) => {
     try {
         const { title } = req.query
+
+        if (!title) {
+            return res.status(404).send({ message: "Este post não existe" })
+        }
 
         const news = await searchByTitleServices(title)
 
@@ -170,6 +179,10 @@ const findByUser = async (req, res) => {
     try {
         const id = req.userId
 
+        if (!id) {
+            return res.status(404).send({ message: "Este post não existe" })
+        }
+
         const news = await findByUserServices(id)
 
         res.status(200).send({
@@ -194,7 +207,12 @@ const findByUser = async (req, res) => {
 const update = async (req, res) => {
     try {
         const { titulo, texto, imagem } = req.body
+        
         const { id } = req.params
+
+        if (!id) {
+            return res.status(404).send({ message: "Este post não existe" })
+        }
 
         if (!titulo && !texto && !imagem) {
             res.status(400).send({ messagem: "Campo vazio ou inválido!" })
@@ -208,11 +226,26 @@ const update = async (req, res) => {
 
         await updateServices(id, titulo, texto, imagem)
 
-        res.status(200).send({message: "Post atualizado"})
+        res.status(200).send({ message: "Post atualizado" })
 
     } catch (err) {
         return res.status(500).send(err.message)
     }
+}
+
+const delet = async (req, res) => {
+    const { id } = req.params
+
+    const news = await findByIdServices(id)
+
+    if (news.user._id != req.userId) {
+        return res.status(401).send({ message: "Esse post não é seu!" })
+    }
+
+    await deletService(id)
+
+    res.status(200).send({ message: "Post deletado" })
+
 }
 
 export {
@@ -222,5 +255,6 @@ export {
     findById,
     searchByTitle,
     findByUser,
-    update
+    update,
+    delet
 }

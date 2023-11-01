@@ -26,6 +26,8 @@ const updateServices = (id, titulo, texto, imagem) => News.findOneAndUpdate(
     { titulo, texto, imagem },
     { rawResult: true })
 
+const deletService = (id) => News.findOneAndDelete({ _id: id })
+
 export {
     createServices,
     findAllServices,
@@ -34,5 +36,6 @@ export {
     findByIdServices,
     searchByTitleServices,
     findByUserServices,
-    updateServices
+    updateServices,
+    deletService
 }

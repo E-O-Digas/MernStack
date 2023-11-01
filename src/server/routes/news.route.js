@@ -8,9 +8,11 @@ import {
     findById, 
     searchByTitle, 
     findByUser, 
-    update 
+    update,
+    delet
 } from "../controllers/news.controller.js"
 import { authMiddleware } from "../middlewares/auth.middleware.js"
+
 
 router.post("/", authMiddleware, create)
 
@@ -21,5 +23,7 @@ router.get("/byUser", authMiddleware, findByUser)
 router.get("/:id", authMiddleware, findById)
 
 router.patch("/:id", authMiddleware, update)
+
+router.delete("/:id", authMiddleware, delet)
 
 export default router
