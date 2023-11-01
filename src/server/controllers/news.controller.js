@@ -184,7 +184,7 @@ const findByUser = async (req, res) => {
         const id = req.userId
 
         if (!id) {
-            return res.status(404).send({ message: "Voçe não está logado" })
+            return res.status(401).send({ message: "Voçe não está logado" })
         }
 
         const news = await findByUserServices(id)

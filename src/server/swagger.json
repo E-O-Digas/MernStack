@@ -1,0 +1,961 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "MernStack Teste 1 API docs",
+        "description": "abuble",
+        "contact": {
+            "email": "eodigaskrl@gmail.com"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:3000",
+            "description": "localhost"
+        }
+    ],
+    "paths": {
+        "/user/": {
+            "post": {
+                "summary": "Cria um usuario",
+                "description": "Cria um usuario",
+                "tags": [
+                    "Users"
+                ],
+                "requestBody": {
+                    "content": {
+                        "aplication/json": {
+                            "schema": {
+                                "$ref": "#/components/schema/User"
+                            }
+                        },
+                        "examples": {
+                            "Users": {
+                                "value": {
+                                    "name": "Diogo de Lorenzi Pinheiro",
+                                    "username": "Digas",
+                                    "email": "diogo@gmail.com",
+                                    "password": "1234",
+                                    "avatar": "1",
+                                    "background": "1"
+                                }
+                            }
+                        }
+                    }
+                },
+                "response": {
+                    "400": {
+                        "description": "Campo vazio ou inválido / Erro na criação do usuário"
+                    },
+                    "500": {
+                        "description": "Server Error"
+                    },
+                    "200": {
+                        "description": "Usuario criado",
+                        "content": {
+                            "aplication/json": {
+                                "schema": {
+                                    "$ref": "#/components/schema/User",
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/user": {
+            "get": {
+                "summary": "Acha todos os usuarios",
+                "description": "Acha todos os usuários",
+                "tags": [
+                    "Users"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "response": {
+                    "400": {
+                        "description": "Não existe usuários no banco"
+                    },
+                    "401": {
+                        "description": "Não autorizado"
+                    },
+                    "500": {
+                        "description": "Server Error"
+                    },
+                    "200": {
+                        "description": "Usuarios",
+                        "content": {
+                            "aplication/json": {
+                                "schema": {
+                                    "items": {
+                                        "$ref": "#/components/schema/User"
+                                    },
+                                    "type": "array"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/user/{id}": {
+            "get": {
+                "summary": "Acha um usuario por Id",
+                "description": "Acha um usuario por Id",
+                "tags": [
+                    "Users"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "type": "string",
+                        "description": "User Id",
+                        "required": true
+                    }
+                ],
+                "response": {
+                    "400": {
+                        "description": "Não existe usuários no banco"
+                    },
+                    "401": {
+                        "description": "Não autorizado"
+                    },
+                    "500": {
+                        "description": "Server Error"
+                    },
+                    "200": {
+                        "description": "Usuario",
+                        "content": {
+                            "aplication/json": {
+                                "schema": {
+                                    "items": {
+                                        "$ref": "#/components/schema/User"
+                                    },
+                                    "type": "array"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/user{id}": {
+            "patch": {
+                "summary": "Atualiza um dado do usuario",
+                "description": "Atualiza um dado do usuario",
+                "tags": [
+                    "Users"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "type": "string",
+                        "description": "User Id",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "aplication/json": {
+                            "schema": {
+                                "$ref": "#/components/schema/User"
+                            }
+                        },
+                        "examples": {
+                            "Users": {
+                                "value": {
+                                    "name": "Diogo de Lorenzi",
+                                    "username": "Digas",
+                                    "email": "diogo@gmail.com",
+                                    "password": "1234",
+                                    "avatar": "1",
+                                    "background": "1"
+                                }
+                            }
+                        }
+                    }
+                },
+                "response": {
+                    "400": {
+                        "description": "Não existe usuários no banco"
+                    },
+                    "401": {
+                        "description": "Não autorizado"
+                    },
+                    "500": {
+                        "description": "Server Error"
+                    },
+                    "200": {
+                        "description": "Usuarios",
+                        "content": {
+                            "aplication/json": {
+                                "schema": {
+                                    "items": {
+                                        "$ref": "#/components/schema/User",
+                                        "value": {
+                                            "name": "Diogo de Lorenzi",
+                                            "username": "Digas",
+                                            "email": "diogo@gmail.com",
+                                            "password": "1234",
+                                            "avatar": "1",
+                                            "background": "1"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/news/": {
+            "post": {
+                "summary": "Cira uma News",
+                "description": "Cria uma News",
+                "tags": [
+                    "News"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "aplication/json": {
+                            "schema": {
+                                "$ref": "#/components/schema/News"
+                            }
+                        },
+                        "examples": {
+                            "Users": {
+                                "value": {
+                                    "titulo": "titulo1",
+                                    "texto": "texto1",
+                                    "imagem": "1"
+                                }
+                            }
+                        }
+                    }
+                },
+                "response": {
+                    "400": {
+                        "description": "Campos vaios ou inválidos"
+                    },
+                    "401": {
+                        "description": "Não autorizado"
+                    },
+                    "500": {
+                        "description": "Server Error"
+                    },
+                    "200": {
+                        "description": "Post Feito",
+                        "content": {
+                            "aplication/json": {
+                                "schema": {
+                                    "items": {
+                                        "$ref": "#/components/schema/News"
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/news": {
+            "get": {
+                "summary": "Acha todos os Posts",
+                "description": "Acha todos os Posts",
+                "tags": [
+                    "News"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "limit",
+                        "type": "string"
+                    },
+                    {
+                        "in": "query",
+                        "name": "offset",
+                        "type": "string"
+                    }
+                ],
+                "response": {
+                    "400": {
+                        "description": "Não existe posts no banco"
+                    },
+                    "401": {
+                        "description": "Não autorizado"
+                    },
+                    "500": {
+                        "description": "Server Error"
+                    },
+                    "200": {
+                        "description": "Todos os Posts",
+                        "content": {
+                            "aplication/json": {
+                                "schema": {
+                                    "items": {
+                                        "$ref": "#/components/schema/News",
+                                        "value": {
+                                            "nextUrl": "`${currUrl}?limit=${limit}&offset=${next}`",
+                                            "previusUrl": "`${currUrl}?limit=${limit}&offset=${previous}`",
+                                            "limit": "limitOfPosts",
+                                            "offset": "startOff",
+                                            "total": "offset + limit",
+                                            "result": {
+                                                "id": "newsId",
+                                                "titulo": "Titulo",
+                                                "texto": "texto1",
+                                                "imagem": "1",
+                                                "likes": [],
+                                                "comentarios": [],
+                                                "name": "newsCreatorName",
+                                                "username": "newsCreatorUsername",
+                                                "avatar": "newsCreatorAvatar"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/news/top": {
+            "get": {
+                "summary": "Acha todos os Posts e organiza por mais recente",
+                "description": "Acha todos os Posts e organiza por mais recente",
+                "tags": [
+                    "News"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "response": {
+                    "400": {
+                        "description": "Não existe posts no banco"
+                    },
+                    "401": {
+                        "description": "Não autorizado"
+                    },
+                    "500": {
+                        "description": "Server Error"
+                    },
+                    "200": {
+                        "description": "Todos os Posts organizados",
+                        "content": {
+                            "aplication/json": {
+                                "schema": {
+                                    "items": {
+                                        "$ref": "#/components/schema/News",
+                                        "value": {
+                                            "result": {
+                                                "id": "newsId",
+                                                "titulo": "Titulo",
+                                                "texto": "texto1",
+                                                "imagem": "1",
+                                                "likes": [],
+                                                "comentarios": [],
+                                                "name": "newsCreatorName",
+                                                "username": "newsCreatorUsername",
+                                                "avatar": "newsCreatorAvatar"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/news/search": {
+            "get": {
+                "get": {
+                    "summary": "Acha um post por Titulo",
+                    "description": "Acha um post por Titulo",
+                    "tags": [
+                        "News"
+                    ],
+                    "security": [
+                        {
+                            "bearerAuth": []
+                        }
+                    ],
+                    "response": {
+                        "404": {
+                            "description": "Não existe esse posts no banco"
+                        },
+                        "401": {
+                            "description": "Não autorizado"
+                        },
+                        "400": {
+                            "description": "Esse titulo não existe"
+                        },
+                        "500": {
+                            "description": "Server Error"
+                        },
+                        "200": {
+                            "description": "Post",
+                            "content": {
+                                "aplication/json": {
+                                    "schema": {
+                                        "items": {
+                                            "$ref": "#/components/schema/News",
+                                            "value": {
+                                                "result": {
+                                                    "id": "newsId",
+                                                    "titulo": "Titulo",
+                                                    "texto": "texto1",
+                                                    "imagem": "1",
+                                                    "likes": [],
+                                                    "comentarios": [],
+                                                    "name": "newsCreatorName",
+                                                    "username": "newsCreatorUsername",
+                                                    "avatar": "newsCreatorAvatar"
+                                                }
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/news/byUser": {
+            "get": {
+                "summary": "Acha todos os posts do usuario que esta logado",
+                "description": "Acha todos os posts do usuario que esta logado",
+                "tags": [
+                    "News"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "response": {
+                    "401": {
+                        "description": "Voce não está logado"
+                    },
+                    "500": {
+                        "description": "Server Error"
+                    },
+                    "200": {
+                        "description": "Post",
+                        "content": {
+                            "aplication/json": {
+                                "schema": {
+                                    "items": {
+                                        "$ref": "#/components/schema/News",
+                                        "value": {
+                                            "result": {
+                                                "id": "newsId",
+                                                "titulo": "Titulo",
+                                                "texto": "texto1",
+                                                "imagem": "1",
+                                                "likes": [],
+                                                "comentarios": [],
+                                                "name": "newsCreatorName",
+                                                "username": "newsCreatorUsername",
+                                                "avatar": "newsCreatorAvatar"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/news/{id}": {
+            "get": {
+                "summary": "Acha um post por Id",
+                "description": "Acha um post por Id",
+                "tags": [
+                    "News"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "type": "string",
+                        "description": "news Id",
+                        "required": true
+                    }
+                ],
+                "response": {
+                    "404": {
+                        "description": "Não existe esse posts no banco"
+                    },
+                    "401": {
+                        "description": "Não autorizado"
+                    },
+                    "500": {
+                        "description": "Server Error"
+                    },
+                    "200": {
+                        "description": "Post",
+                        "content": {
+                            "aplication/json": {
+                                "schema": {
+                                    "items": {
+                                        "$ref": "#/components/schema/News",
+                                        "value": {
+                                            "result": {
+                                                "id": "newsId",
+                                                "titulo": "Titulo",
+                                                "texto": "texto1",
+                                                "imagem": "1",
+                                                "likes": [],
+                                                "comentarios": [],
+                                                "name": "newsCreatorName",
+                                                "username": "newsCreatorUsername",
+                                                "avatar": "newsCreatorAvatar"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/news/{id}/": {
+            "patch": {
+                "summary": "Acha um post por Id e atualiza pelo menos 1 item do post",
+                "description": "Acha um post por Id e atualiza pelo menos 1 item do post",
+                "tags": [
+                    "News"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "type": "string",
+                        "description": "News Id",
+                        "required": true
+                    }
+                ],
+                "response": {
+                    "404": {
+                        "description": "Não existe esse posts no banco"
+                    },
+                    "401": {
+                        "description": "Esse post não é seu"
+                    },
+                    "400": {
+                        "description": "Campos vaios ou inválidos"
+                    },
+                    "500": {
+                        "description": "Server Error"
+                    },
+                    "200": {
+                        "description": "Post atualizado",
+                        "content": {
+                            "aplication/json": {
+                                "schema": {
+                                    "items": {
+                                        "$ref": "#/components/schema/News"
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/news/likes/{id}": {
+            "patch": {
+                "summary": "Acha um post por Id e da like",
+                "description": "Acha um post por Id e da like",
+                "tags": [
+                    "News"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "type": "string",
+                        "description": "News Id",
+                        "required": true
+                    }
+                ],
+                "response": {
+                    "404": {
+                        "description": "Não existe esse posts no banco"
+                    },
+                    "401": {
+                        "description": "Não autorizado"
+                    },
+                    "500": {
+                        "description": "Server Error"
+                    },
+                    "200": {
+                        "description/": "Voce curtiu este post",
+                        "content/": {
+                            "aplication/json": {
+                                "schema": {
+                                    "items": {
+                                        "$ref": "#/components/schema/News"
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "description": "Voce descurtiu este post",
+                        "content": {
+                            "aplication/json": {
+                                "schema": {
+                                    "items": {
+                                        "$ref": "#/components/schema/News"
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/news/comment/{id}": {
+            "patch": {
+                "summary": "Acha um post por Id e comenta",
+                "description": "Acha um post por Id e comenta",
+                "tags": [
+                    "News"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "type": "string",
+                        "description": "News Id",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "aplication/json": {
+                            "schema": {
+                                "$ref": "#/components/schema/News"
+                            }
+                        },
+                        "examples": {
+                            "News": {
+                                "value": {
+                                    "userComment": "texto"
+                                }
+                            }
+                        }
+                    }
+                },
+                "response": {
+                    "404": {
+                        "description": "Não existe esse posts no banco"
+                    },
+                    "401": {
+                        "description": "Não autorizado"
+                    },
+                    "400": {
+                        "description": "Comentário vazio"
+                    },
+                    "500": {
+                        "description": "Server Error"
+                    },
+                    "200": {
+                        "description": "Comentário feito",
+                        "content": {
+                            "aplication/json": {
+                                "schema": {
+                                    "items": {
+                                        "$ref": "#/components/schema/News"
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/news/comment/{idNews}/{commentId}": {
+            "patch": {
+                "summary": "Acha um post por Id e comenta",
+                "description": "Acha um post por Id e comenta",
+                "tags": [
+                    "News"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "idNews",
+                        "type": "string",
+                        "description": "News Id",
+                        "required": true
+                    },
+                    {
+                        "in": "path",
+                        "name": "commentId",
+                        "type": "string",
+                        "description": "Comment Id",
+                        "required": true
+                    }
+                ],
+                "response": {
+                    "404": {
+                        "description": "Não existe esse comentário / Este post não existe"
+                    },
+                    "401": {
+                        "description": "Esse comentário não é seu / Voçê nao esta logado"
+                    },
+                    "500": {
+                        "description": "Server Error"
+                    },
+                    "200": {
+                        "description": "Comentário deletado",
+                        "content": {
+                            "aplication/json": {
+                                "schema": {
+                                    "items": {
+                                        "$ref": "#/components/schema/News"
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/news{id}": {
+            "delete": {
+                "summary": "Acha um post por Id e o deleta",
+                "description": "Acha um post por Id e o deleta",
+                "tags": [
+                    "News"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "type": "string",
+                        "description": "News Id",
+                        "required": true
+                    }
+                ],
+                "response": {
+                    "404": {
+                        "description": "Não existe esse posts no banco"
+                    },
+                    "401": {
+                        "description": "Esse post não é seu"
+                    },
+                    "500": {
+                        "description": "Server Error"
+                    },
+                    "200": {
+                        "description": "Post deletado",
+                        "content": {
+                            "aplication/json": {
+                                "schema": {
+                                    "items": {
+                                        "$ref": "#/components/schema/News"
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/": {
+            "post": {
+                "summary": "Loga/Autentica um usuário",
+                "description": "Loga/Autentica um usuário",
+                "tags": [
+                    "News"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "aplication/json": {
+                            "schema": {
+                                "$ref": "#/components/schema/User"
+                            }
+                        },
+                        "examples": {
+                            "Users": {
+                                "value": {
+                                    "email": "diogo@gmail.com",
+                                    "password": "1234"
+                                }
+                            }
+                        }
+                    }
+                },
+                "response": {
+                    "404": {
+                        "description": "Não existe esse usuário no banco"
+                    },
+                    "500": {
+                        "description": "Server Error"
+                    },
+                    "200": {
+                        "description": "Login efetuado",
+                        "content": {
+                            "aplication/json": {
+                                "schema": {
+                                    "items": {
+                                        "$ref": "#/components/schema/News",
+                                        "token": "userToken"
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "securitySchema": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFromat": "JWT"
+            }
+        },
+        "schemas": {
+            "User": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "String"
+                    },
+                    "username": {
+                        "type": "String"
+                    },
+                    "email": {
+                        "type": "String",
+                        "unique": true,
+                        "lowercase": true
+                    },
+                    "password": {
+                        "type": "String",
+                        "select": false
+                    },
+                    "avatar": {
+                        "type": "String"
+                    },
+                    "background": {
+                        "type": "String"
+                    }
+                }
+            },
+            "News": {
+                "type": "object",
+                "properties": {
+                    "titulo": {
+                        "type": "String"
+                    },
+                    "imagem": {
+                        "type": "String"
+                    },
+                    "texto": {
+                        "type": "String"
+                    },
+                    "data": {
+                        "type": "Date",
+                        "default": "Date.now()"
+                    },
+                    "user": {
+                        "type": "mongoose.Schema.Types.ObjectId",
+                        "ref": "User"
+                    },
+                    "likes": {
+                        "type": "Array"
+                    },
+                    "comentarios": {
+                        "type": "Array"
+                    }
+                }
+            }
+        }
+    }
+}
