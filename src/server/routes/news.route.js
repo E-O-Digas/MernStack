@@ -10,7 +10,9 @@ import {
     findByUser, 
     update,
     delet,
-    likeNews
+    likeNews,
+    commentNews,
+    deletNewsComment
 } from "../controllers/news.controller.js"
 import { authMiddleware } from "../middlewares/auth.middleware.js"
 
@@ -25,6 +27,8 @@ router.get("/:id", authMiddleware, findById)
 
 router.patch("/:id", authMiddleware, update)
 router.patch("/likes/:id", authMiddleware, likeNews)
+router.patch("/comment/:id", authMiddleware, commentNews)
+router.patch("/comment/:idNews/:commentId", authMiddleware, deletNewsComment)
 
 router.delete("/:id", authMiddleware, delet)
 

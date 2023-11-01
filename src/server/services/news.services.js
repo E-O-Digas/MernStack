@@ -36,6 +36,37 @@ const deletLikeNewsServices = (id, userId) => News.findOneAndUpdate(
     { _id: id },
     { $pull: { likes: { userId } } })
 
+const commentNewsServices = (id, userComment, userId) => {
+    const commentId = Math.floor(Date.now() * Math.random()).toString(36)
+
+    return News.findOneAndUpdate(
+        { _id: id },
+        {
+            $push: {
+                comentarios: {
+                    commentId,
+                    userId,
+                    userComment,
+                    createdAt: new Date()
+                }
+            }
+        }
+    )
+}
+
+const deletNewsCommentServices = (idNews, commentId, userId) => News.findOneAndUpdate(
+    { _id: idNews },
+    {
+        $pull: {
+            comentarios: {
+                commentId,
+                userId
+            }
+        }
+    }
+)
+
+
 export {
     createServices,
     findAllServices,
@@ -47,5 +78,7 @@ export {
     updateServices,
     deletServices,
     likeNewsServices,
-    deletLikeNewsServices
+    deletLikeNewsServices,
+    commentNewsServices,
+    deletNewsCommentServices
 }

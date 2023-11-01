@@ -9,7 +9,9 @@ import {
     updateServices,
     deletServices,
     likeNewsServices,
-    deletLikeNewsServices
+    deletLikeNewsServices,
+    commentNewsServices,
+    deletNewsCommentServices
 } from "../services/news.services.js"
 
 const create = async (req, res) => {
@@ -281,6 +283,69 @@ const likeNews = async (req, res) => {
     }
 }
 
+const commentNews = async (req, res) => {
+    try {
+        const { id } = req.params
+        const userId = req.userId
+        const { userComment } = req.body
+
+        if (!id) {
+            return res.status(404).send({ message: "Este post não existe" })
+        }
+
+        if (!userId) {
+            return res.status(401).send({ message: "Voçe não está logado" })
+        }
+
+        if (!userComment) {
+            return res.status(400).send({ message: "Comentário vazio" })
+        }
+
+        await commentNewsServices(id, userComment, userId)
+
+        return res.status(200).send({ message: "comentário feito" })
+
+    } catch (err) {
+        return res.status(500).send({ message: err.message })
+    }
+
+
+}
+
+const deletNewsComment = async (req, res) => {
+    try {
+        const { idNews, commentId } = req.params
+        const userId = req.userId
+
+        if (!idNews) {
+            return res.status(404).send({ message: "Este post não existe" })
+        }
+
+        if (!userId) {
+            return res.status(401).send({ message: "Voçe não está logado" })
+        }
+
+        const deletedComment = await deletNewsCommentServices(idNews, commentId, userId)
+
+        const commentFinder = deletedComment.comentarios.find((comentarios) => comentarios.commentId === commentId)
+
+        if (!commentFinder) {
+            return res.status(400).send({ message: "Esse comentário não existe" })
+        }
+
+        if (commentFinder.userId !== userId) {
+            return res.status(400).send({ message: "Esse comentário não é seu" })
+        }
+
+        return res.status(200).send({ message: "comentário apagado" })
+
+    } catch (err) {
+        return res.status(500).send({ message: err.message })
+    }
+}
+
+
+
 export {
     findAll,
     create,
@@ -290,5 +355,7 @@ export {
     findByUser,
     update,
     delet,
-    likeNews
+    likeNews,
+    commentNews,
+    deletNewsComment
 }
