@@ -1,0 +1,22 @@
+export const news = [
+    {
+        "titulo":"Titulo1",
+        "texto":"Texto1",
+        "imagem":"imagem1"
+    },
+    {
+        "titulo":"Titulo2",
+        "texto":"Texto2",
+        "imagem":"imagem2"
+    },
+    {
+        "titulo":"Titulo3",
+        "texto":"Texto3",
+        "imagem":"imagem3"
+    },
+    {
+        "titulo":"Titulo4",
+        "texto":"Texto4",
+        "imagem":"imagem4"
+    }
+]
