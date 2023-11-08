@@ -24,7 +24,7 @@ const findByUserServices = (id) => News.find({ user: id }).sort({ _id: -1 }).pop
 const updateServices = (id, titulo, texto, imagem) => News.findOneAndUpdate(
     { _id: id },
     { titulo, texto, imagem },
-    { rawResult: true })
+    { includeResultMetadata: false })
 
 const deletServices = (id) => News.findOneAndDelete({ _id: id })
 
