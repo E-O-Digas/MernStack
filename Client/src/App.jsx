@@ -1,5 +1,5 @@
 import { GlobalStyles } from "./GlobalStyles.jsx"
-import Home from "./Pages/Home.jsx"
+import Home from "./Pages/Home/Home"
 
 function App() {
   return (

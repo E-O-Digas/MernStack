@@ -66,11 +66,10 @@ export const Nav = styled.nav`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    position: fixed;
     background-color: white;
     width: 100%;
-    top: 0;
     padding: 1rem 0;
+    top: 0;
     z-index: 1;
     box-shadow: rgba(17, 17, 126, 0.1) 0px 1px 0px 0px;
 `
