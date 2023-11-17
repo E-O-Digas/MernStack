@@ -1,7 +1,6 @@
 import {
     findAllServices,
     createServices,
-    countNewsServices,
     topNewsServices,
     findByIdServices,
     searchByTitleServices,
@@ -9,7 +8,6 @@ import {
     updateServices,
     deletServices,
     likeNewsServices,
-    deletLikeNewsServices,
     commentNewsServices,
     deletNewsCommentServices
 } from "../services/news.services.js"
@@ -18,16 +16,6 @@ const create = async (req, res) => {
     try {
         const { titulo, texto, imagem } = req.body
 
-        if (!titulo || !texto || !imagem) {
-            return res.status(400).send({ message: "Campos vazios ou inválidos!" })
-        }
-
-        await createServices({
-            titulo,
-            texto,
-            imagem,
-            user: req.userId
-        })
 
         res.status(201).send({ message: "Post feito" })
     } catch (err) {
@@ -39,22 +27,9 @@ const findAll = async (req, res) => {
     try {
         let { limit, offset } = req.query
 
-        limit = Number(limit)
-
-        offset = Number(offset)
-
-        if (!limit) {
-            limit = 5
-        }
-
-        if (!offset) {
-            offset = 0
-        }
-
-
-        const news = await findAllServices(offset, limit)
-        const total = await countNewsServices()
         const currUrl = req.baseUrl
+
+        const { total, news } = await findAllServices(offset, limit)
 
         const next = offset + limit
         const nextUrl = next < total ? `${currUrl}?limit=${limit}&offset=${next}` : null
@@ -88,10 +63,6 @@ const findAll = async (req, res) => {
 const topNews = async (req, res) => {
     try {
         const topNews = await topNewsServices()
-
-        if (!topNews) {
-            return res.status(400).send({ message: "Não há notícias..." })
-        }
 
         res.send({
             news: {
@@ -269,7 +240,6 @@ const likeNews = async (req, res) => {
         const likedNews = await likeNewsServices(id, userId)
 
         if (!likedNews) {
-            await deletLikeNewsServices(id, userId)
             return res.status(200).send({ message: "Voce descurtiu este post" })
         }
 

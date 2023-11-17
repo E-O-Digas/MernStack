@@ -5,6 +5,8 @@ const login = async (req, res) => {
     try {
         const { email, password } = req.body
 
+        console.log(email, password)
+
         const user = await loginService(email)
 
         if (!user) {
