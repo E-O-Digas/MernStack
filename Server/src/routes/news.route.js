@@ -1,13 +1,13 @@
 import { Router } from "express"
-const router = Router()
+const newsRouter = Router()
 
-import { 
-    create, 
-    findAll, 
-    topNews, 
-    findById, 
-    searchByTitle, 
-    findByUser, 
+import {
+    create,
+    findAll,
+    topNews,
+    findById,
+    searchByTitle,
+    findByUser,
     update,
     delet,
     likeNews,
@@ -17,19 +17,19 @@ import {
 import { authMiddleware } from "../middlewares/auth.middleware.js"
 
 
-router.post("/", authMiddleware, create)
+newsRouter.post("/", authMiddleware, create)
 
-router.get("/", findAll)
-router.get("/top", topNews)
-router.get("/search", searchByTitle)
-router.get("/byUser", authMiddleware, findByUser)
-router.get("/:id", authMiddleware, findById)
+newsRouter.get("/", findAll)
+newsRouter.get("/top", topNews)
+newsRouter.get("/search", searchByTitle)
+newsRouter.get("/byUser", authMiddleware, findByUser)
+newsRouter.get("/:id", authMiddleware, findById)
 
-router.patch("/:id", authMiddleware, update)
-router.patch("/likes/:id", authMiddleware, likeNews)
-router.patch("/comment/:id", authMiddleware, commentNews)
-router.patch("/comment/:idNews/:commentId", authMiddleware, deletNewsComment)
+newsRouter.patch("/:id", authMiddleware, update)
+newsRouter.patch("/likes/:id", authMiddleware, likeNews)
+newsRouter.patch("/comment/:id", authMiddleware, commentNews)
+newsRouter.patch("/comment/:idNews/:commentId", authMiddleware, deletNewsComment)
 
-router.delete("/:id", authMiddleware, delet)
+newsRouter.delete("/:id", authMiddleware, delet)
 
-export default router
+export default newsRouter

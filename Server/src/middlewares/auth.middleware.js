@@ -1,6 +1,6 @@
 import dotenv from 'dotenv'
 import jwt from 'jsonwebtoken'
-import { findByIdServices } from '../services/user.services.js'
+import { findByIdRepository } from '../repository/user.repository.js'
 dotenv.config()
 
 const authMiddleware = (req, res, next) => {
@@ -26,7 +26,9 @@ const authMiddleware = (req, res, next) => {
         jwt.verify(token, process.env.SECRET_JWT, async (err, decoded) => {
             if (err) return res.status(401).send({ message: "Não Autorizado" })
 
-            const user = await findByIdServices(decoded.id)
+            const user = await findByIdRepository(decoded.id)
+
+            console.log(user)
 
             if (!user || !user.id) {
                 return res.status(401).send({ message: "Não Autorizado" })

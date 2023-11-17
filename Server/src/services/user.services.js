@@ -1,14 +1,54 @@
-import User from "../models/User.js"
+import { updUserInfoRepository, createRepository, findAllRepository } from "../repository/user.repository.js"
 
-const createServices = (body) => User.create(body)
+const createService = async (body) => {
 
-const findAllServices = () => User.find()
+    const { name, username, email, password, background, avatar } = body
 
-const findByIdServices = (id) => User.findById(id)
+    if (!name || !username || !email || !password || !background || !avatar) throw new Error("Campo vazio ou inválido")
 
-const updUserInfoServices = (id, name, username, email, password, image, background, avatar) =>
-    User.findOneAndUpdate(
-        { _id: id },
-        { name, username, email, password, image, background, avatar })
 
-export { createServices, findAllServices, findByIdServices, updUserInfoServices }
+    const user = await createRepository(body)
+
+    if (!user) throw new Error("Erro na criação do usuário!")
+
+    return ({
+        message: "Usuário criado!",
+        id: user._id,
+        user
+    })
+
+}
+
+const findAllService = async () => {
+
+    const users = await findAllRepository()
+
+    if (users.length === 0) throw new Error("Não há usuários cadastrados")
+
+    return users
+
+
+}
+
+const findByIdService = async (id, user) => {
+    return (id, user)
+}
+
+const updUserInfoService = async (id, user) => {
+
+    const userId = id
+
+    const { name, username, email, password, background, avatar } = user
+
+    if (!name || !username || !email || !password || !background || !avatar) throw new Error("Campos vazios ou inválidos")
+
+    await updUserInfoRepository(
+        userId,
+        user
+    )
+
+    return ({ message: "Usuário atualizado com sucesso!" })
+
+}
+
+export { createService, findAllService, findByIdService, updUserInfoService }
