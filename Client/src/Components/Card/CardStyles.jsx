@@ -17,26 +17,31 @@ export const CardContainer = styled.section`
 
 export const CardBody = styled.article`
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: 20px;
 
-    &h2{
-        margin-bottom: 20px;
+    & > div{
+        display:flex;
+        align-items: center;
+        & > h2{
+            margin-bottom: 20px;
+        }
+        
+        & > img {
+            width: 30%;
+            object-fit: cover;
+            object-position: center;
+        }
     }
 
-    & div > p{
+    &p{
         font-size: 0.75rem;
-    }
-
-    &img {
-        width: 30%;
-        object-fit: cover;
-        object-position: center;
     }
 `
 
-export const CardFooter= styled.article`
+export const CardFooter = styled.article`
     display: flex;
     align-items: center;
     gap: 15px;

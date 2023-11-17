@@ -62,10 +62,6 @@ const findAll = async (req, res) => {
         const previous = offset - limit != 0 ? null : offset - limit
         const previousUrl = previous != null ? `${currUrl}?limit=${limit}&offset=${previous}` : null
 
-        if (news.length === 0) {
-            return res.status(400).send({ message: "Não há posts no banco de dados!" })
-        }
-
         res.status(200).send({
             nextUrl,
             previousUrl,
