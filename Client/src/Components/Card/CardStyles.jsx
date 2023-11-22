@@ -18,26 +18,22 @@ export const CardContainer = styled.section`
 export const CardBody = styled.article`
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
+    width: 100%;
+    height: 100%;
 
-    & > div{
+    & div{
         display:flex;
         align-items: center;
-        & > h2{
-            margin-bottom: 20px;
-        }
+        justify-content: space-between;
+        padding: 20px;
+        width: 100%;
         
-        & > img {
-            width: 30%;
+        & img{
+            width: 40%;
             object-fit: cover;
             object-position: center;
+            border-radius: 0 6px 6px 0;
         }
-    }
-
-    &p{
-        font-size: 0.75rem;
     }
 `
 
@@ -45,5 +41,25 @@ export const CardFooter = styled.article`
     display: flex;
     align-items: center;
     gap: 15px;
+
+    & section{
+        display: flex;
+        align-items: center;
+        gap: 4px;
+    }
+
+`
+
+export const CardHeader = styled.article`
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    font-size: ${(props) => (props.top ? "1.5rem" : "0.75rem")};
+
+    & h2{
+        margin-bottom: 20px;
+        font-size: ${(props) => (props.top ? "3rem" : "1.5rem")};
+        width: 100%;
+    }
 
 `

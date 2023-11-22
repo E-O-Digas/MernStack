@@ -8,3 +8,9 @@ export const HomeContainer = styled.section`
     padding-top: 50px;
     width: 50%;
 `
+
+export const HomeHeader = styled.div`
+    display: flex;
+    width: 80%;
+    margin: 40px auto;
+`

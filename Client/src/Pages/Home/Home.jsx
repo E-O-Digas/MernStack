@@ -1,17 +1,22 @@
-import { HomeContainer } from "./HomeStyles"
+import { HomeContainer, HomeHeader } from "./HomeStyles"
 import Navbar from "../../Components/Navbar/Navbar.jsx"
 import Card from "../../Components/Card/Card.jsx"
 
-import { getAllNews } from "../../services/postsServices.js"
+import { getAllNews, getTopNews } from "../../services/postsServices.js"
 
 import { useState, useEffect } from "react"
 
 export default function Home() {
     const [news, setNews] = useState([])
 
+    const [topNews, setTopNews] = useState({})
+
     async function findAllNews() {
-        const response = await getAllNews()
-        setNews(response.data.result)
+        const news = await getAllNews()
+        setNews(news.data.result)
+
+        const topNews = await getTopNews()
+        setTopNews(topNews.data.news)
     }
 
     useEffect(() => {
@@ -21,14 +26,24 @@ export default function Home() {
     return (
         <>
             <Navbar />
+            <HomeHeader>
+                <Card
+                    top={true}
+                    titulo={topNews.titulo}
+                    texto={topNews.texto}
+                    imagem={topNews.imagem}
+                    likes={topNews.likes}
+                    comentarios={topNews.comentarios}
+                />
+            </HomeHeader>
             <HomeContainer >
                 {news.map((item) => <Card
                     key={item.id}
                     titulo={item.titulo}
                     texto={item.texto}
                     imagem={item.imagem}
-                    likes={item.likes.length}
-                    comentarios={item.comentarios.length}
+                    likes={item.likes}
+                    comentarios={item.comentarios}
                 />
                 )}
             </HomeContainer>

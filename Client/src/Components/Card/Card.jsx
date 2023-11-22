@@ -1,4 +1,4 @@
-import { CardContainer, CardBody, CardFooter } from "./CardStyles"
+import { CardContainer, CardBody, CardFooter, CardHeader } from "./CardStyles"
 import { TextLimit } from "../TextLimit/TextLimit"
 
 export default function Card(props) {
@@ -7,23 +7,26 @@ export default function Card(props) {
             <CardContainer>
                 <CardBody>
                     <div>
-                        <h2>{props.titulo}</h2>
-                        <img src={props.imagem} alt="img" />
+                        <CardHeader top={props.top}>
+                            <h2>{props.titulo}</h2>
+
+                            <TextLimit limit={2} text={props.texto} />
+                        </CardHeader>
+
+                        <CardFooter>
+                            <section>
+                                <i className="bi bi-hand-thumbs-up"></i>
+                                <span>{props.likes?.length}</span>
+                            </section>
+
+                            <section>
+                                <i className="bi bi-chat"></i>
+                                <span>{props.comentarios?.length}</span>
+                            </section>
+                        </CardFooter>
                     </div>
-                    <TextLimit limit={2} text={props.texto}/>
+                    <img src={props.imagem} alt="img" />
                 </CardBody>
-
-                <CardFooter>
-                    <div>
-                        <i className="bi bi-hand-thumbs-up"></i>
-                        <span>{props.likes}</span>
-                    </div>
-
-                    <div>
-                        <i className="bi bi-chat"></i>
-                        <span>{props.comentarios}</span>
-                    </div>
-                </CardFooter>
             </CardContainer>
         </>
     )

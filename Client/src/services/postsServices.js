@@ -10,3 +10,12 @@ export function getAllNews() {
         return console.log(err.message)
     }
 }
+
+export function getTopNews() {
+    try {
+        const response = axios.get(`${baseUrl}news/top`)
+        return response
+    } catch (err) {
+        return console.log(err.message)
+    }
+}
