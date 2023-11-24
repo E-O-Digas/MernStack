@@ -1,14 +1,7 @@
-import { GlobalStyles } from "./GlobalStyles.jsx"
-import Home from "./Pages/Home/Home"
+import { Outlet } from "react-router-dom"
 
 function App() {
-  return (
-    <>
-      <GlobalStyles />
-      <Home />
-    </>
-
-  )
+  return <Outlet />
 }
 
 export default App

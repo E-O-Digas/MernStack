@@ -1,5 +1,4 @@
 import { HomeContainer, HomeHeader } from "./HomeStyles"
-import Navbar from "../../Components/Navbar/Navbar.jsx"
 import Card from "../../Components/Card/Card.jsx"
 
 import { getAllNews, getTopNews } from "../../services/postsServices.js"
@@ -25,7 +24,6 @@ export default function Home() {
 
     return (
         <>
-            <Navbar />
             <HomeHeader>
                 <Card
                     top={true}

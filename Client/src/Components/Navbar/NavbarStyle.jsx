@@ -28,7 +28,7 @@ export const InputSpace = styled.div`
     width: 200px;
     position: relative;
 
-    input{
+    & input{
         outline: none;
         font-size: 1rem;
         padding: 0.4rem;
@@ -42,7 +42,7 @@ export const InputSpace = styled.div`
         }   
     }
 
-    i{
+    & button{
         position: absolute;
         top: 1;
         right: 0.2rem;
