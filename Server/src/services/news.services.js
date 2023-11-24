@@ -46,176 +46,70 @@ const findAllServices = async (offset, limit) => {
     return ({ total, news })
 }
 
-const topNewsServices = async () => {
-    const topNews = await topNewsRepository()
+const topNewsServices = async (id) => {
+    const topNews = await topNewsRepository(id)
 
     return (topNews)
 }
 
-const findByIdServices = async (req, res) => {
-
-    const { id } = req.params
-
-    if (!id) {
-        throw new Error("Este post não existe")
-    }
-
+const findByIdServices = async (id) => {
     const news = await findByIdRepository(id)
 
-    return ({
-        news: {
-            id: news._id,
-            titulo: news.titulo,
-            texto: news.texto,
-            imagem: news.imagem,
-            likes: news.likes,
-            comentarios: news.comentarios,
-            name: news.user.name,
-            username: news.user.username,
-            avatar: news.user.avatar
-        }
-    })
+    return (news)
 }
 
-const searchByTitleServices = async (req, res) => {
-
-    const { title } = req.query
-
-    if (!title) throw new Error("Este post não existe")
-
+const searchByTitleServices = async (title) => {
     const news = await searchByTitleRepository(title)
 
-    if (news.length === 0) throw new Error("Esse título não existe")
-
-
-    return ({
-        result: news.map((newsItem) => ({
-            id: newsItem._id,
-            titulo: newsItem.titulo,
-            texto: newsItem.texto,
-            imagem: newsItem.imagem,
-            likes: newsItem.likes,
-            comentarios: newsItem.comentarios,
-            name: newsItem.user.name,
-            username: newsItem.user.username,
-            avatar: newsItem.user.avatar
-        }))
-    })
+    return (news)
 }
 
-const findByUserServices = async (req, res) => {
-
-    const id = req.userId
-
-    if (!id) throw new Error("Voçe não está logado")
-
+const findByUserServices = async (id) => {
     const news = await findByUserRepository(id)
 
-    return ({
-        result: news.map((newsItem) => ({
-            id: newsItem._id,
-            titulo: newsItem.titulo,
-            texto: newsItem.texto,
-            imagem: newsItem.imagem,
-            likes: newsItem.likes,
-            comentarios: newsItem.comentarios,
-            name: newsItem.user.name,
-            username: newsItem.user.username,
-            avatar: newsItem.user.avatar
-        }))
-    })
+    return (news)
 }
 
-const updateServices = async (req, res) => {
-    const { titulo, texto, imagem } = req.body
-
-    const { id } = req.params
-
-    if (!id) throw new Error("Este post não existe")
-
-    if (!titulo && !texto && !imagem) throw new Error("Campo vazio ou inválido!")
-
+const updateServices = async (id, titulo, texto, imagem) => {
     const news = await findByIdRepository(id)
-
-    if (news.user._id != req.userId) throw new Error("Esse post não é seu!")
 
     await updateRepository(id, titulo, texto, imagem)
 
-    return ({ message: "Post atualizado" })
+    return (news)
 }
 
-const deletServices = async (req, res) => {
-    const { id } = req.params
+const deletServices = async (idNews) => {
+    const id = await findByIdRepository(idNews)
 
-    if (!id) throw new Error("Este post não existe")
+    const newDeleted = await deletRepository(id)
 
-
-    const news = await findByIdRepository(id)
-
-    if (news.user._id != req.userId) throw new Error("Esse post não é seu!")
-
-    await deletRepository(id)
-
-    return ("Post deletado")
-
+    return (newDeleted)
 }
 
-const likeNewsServices = async (req, res) => {
-
-    const { id } = req.params
-    const userId = req.userId
-
-    if (!id) throw new Error({ message: "Este post não existe" })
-
-    if (!userId) throw new Error({ message: "Voçe não está logado" })
-
+const likeNewsServices = async (id, userId) => {
     const likedNews = await likeNewsRepository(id, userId)
 
     if (!likedNews) {
         await deletLikeNewsRepository(id, userId)
-        throw new Error({ message: "Voce descurtiu este post" })
+        throw new Error("Voce descurtiu este post")
     }
 
-    return ({ message: "Voce curtiu este post" })
+    return (likedNews)
 
 }
 
-const commentNewsServices = async (req, res) => {
-
-    const { id } = req.params
-    const userId = req.userId
-    const { userComment } = req.body
-
-    if (!id) throw new Error({ message: "Este post não existe" })
-
-    if (!userId) throw new Error({ message: "Voçe não está logado" })
-
-    if (!userComment) throw new Error({ message: "Comentário vazio" })
-
+const commentNewsServices = async (id, userComment, userId) => {
     await commentNewsRepository(id, userComment, userId)
 
-    return ({ message: "comentário feito" })
+    return
 }
 
-const deletNewsCommentServices = async (req, res) => {
-    const { idNews, commentId } = req.params
-    const userId = req.userId
-
-    if (!idNews) throw new Error("Este post não existe")
-
-    if (!userId) throw new Error("Voçe não está logado")
-
+const deletNewsCommentServices = async (idNews, commentId, userId) => {
     const deletedComment = await deletNewsCommentRepository(idNews, commentId, userId)
 
-    const commentFinder = deletedComment.comentarios.find((comentarios) => comentarios.commentId === commentId)
-
-    if (!commentFinder) throw new Error("Esse comentário não existe")
-
-    if (commentFinder.userId !== userId) {
-        throw new Error("Esse comentário não é seu")
-    }
-
-    return ("comentário apagado")
+    const commentFinder = deletedComment.comentarios.find((comentarios) => comentarios[0].commentId === commentId)
+    
+    return (deletedComment, commentFinder)
 }
 
 

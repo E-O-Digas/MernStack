@@ -26,7 +26,7 @@ export default function Home() {
         <>
             <HomeHeader>
                 <Card
-                    top={true}
+                    $top={true}
                     titulo={topNews.titulo}
                     texto={topNews.texto}
                     imagem={topNews.imagem}

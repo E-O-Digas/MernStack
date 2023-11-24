@@ -73,3 +73,14 @@ export const Nav = styled.nav`
     z-index: 1;
     box-shadow: rgba(17, 17, 126, 0.1) 0px 1px 0px 0px;
 `
+
+
+export const ErrorSpan = styled.span`
+    background-color: #ffaeae;
+    color: red;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    font-size: 1.1rem;
+    font-weight: bold;
+` 

@@ -211,7 +211,6 @@ const delet = async (req, res) => {
         return res.status(404).send({ message: "Este post não existe" })
     }
 
-
     const news = await findByIdServices(id)
 
     if (news.user._id != req.userId) {
@@ -220,7 +219,7 @@ const delet = async (req, res) => {
 
     await deletServices(id)
 
-    res.status(200).send({ message: "Post deletado" })
+    res.status(200).send({ message: "Post Deletado" })
 
 }
 
@@ -236,12 +235,8 @@ const likeNews = async (req, res) => {
         if (!userId) {
             return res.status(401).send({ message: "Voçe não está logado" })
         }
-
-        const likedNews = await likeNewsServices(id, userId)
-
-        if (!likedNews) {
-            return res.status(200).send({ message: "Voce descurtiu este post" })
-        }
+        
+        await likeNewsServices(id, userId)
 
         res.status(200).send({ message: "Voce curtiu este post" })
     } catch (err) {
@@ -274,8 +269,6 @@ const commentNews = async (req, res) => {
     } catch (err) {
         return res.status(500).send({ message: err.message })
     }
-
-
 }
 
 const deletNewsComment = async (req, res) => {
@@ -294,6 +287,7 @@ const deletNewsComment = async (req, res) => {
         const deletedComment = await deletNewsCommentServices(idNews, commentId, userId)
 
         const commentFinder = deletedComment.comentarios.find((comentarios) => comentarios.commentId === commentId)
+
 
         if (!commentFinder) {
             return res.status(400).send({ message: "Esse comentário não existe" })
