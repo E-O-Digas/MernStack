@@ -1,31 +1,13 @@
-import bcrypt from "bcrypt"
-import { generateToken, loginService } from "../services/auth.services.js"
+import { loginService } from "../services/auth.services.js"
 
 const login = async (req, res) => {
+    const { email, senha } = req.body
+
     try {
-        const { email, password } = req.body
-
-        console.log(email, password)
-
-        const user = await loginService(email)
-
-        if (!user) {
-            return res.status(404).send({ message: "Usuário ou Senha inválida!" })
-        }
-
-        const passwordIsValid = bcrypt.compareSync(password, user.password)
-
-        if (!passwordIsValid) {
-            return res.status(404).send({ message: "Usuário ou Senha inválida!" })
-        }
-
-        const token = generateToken(user.id)
-
-        res.status(200).send({ message: "Login efetuado!", token: token })
-
+        const token = await loginService(email, senha)
+        return res.send(token)
     } catch (err) {
         res.status(500).send(err.message)
-
     }
 }
 

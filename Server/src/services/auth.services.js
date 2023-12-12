@@ -1,8 +1,18 @@
-import User from '../models/User.js'
-import jwt from 'jsonwebtoken'
+import bcrypt from "bcrypt"
+import { generateTokenRepository, loginRepository } from "../repository/auth.repository.js"
 
-const loginService = (email) => User.findOne({ email: email })
+const loginServices = async ({ email, senha }) => {
+    const user = await loginRepository(email)
 
-const generateToken = (id) => jwt.sign({ id: id }, process.env.SECRET_JWT, { expiresIn: 86400 })
+    if (!user) throw new Error("Usuário não existe")
 
-export { loginService, generateToken } 
+    const passwordIsValid = bcrypt.compareSync(senha, user.senha)
+
+    if (!passwordIsValid) throw new Error("Usuário ou Senha inválida!")
+
+    const token = generateTokenRepository(user.id)
+
+    return token
+}
+
+export { loginServices }

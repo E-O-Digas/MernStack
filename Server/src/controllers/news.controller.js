@@ -16,8 +16,11 @@ const create = async (req, res) => {
     try {
         const { titulo, texto, imagem } = req.body
 
+        const news = await createServices(titulo, texto, imagem)
 
-        res.status(201).send({ message: "Post feito" })
+        if (!news) res.status(400).send({ message: "Algo deu errado"})
+
+        res.status(200).send({ message: "Post feito" })
     } catch (err) {
         res.status(500).send({ message: err.message })
     }
@@ -235,7 +238,7 @@ const likeNews = async (req, res) => {
         if (!userId) {
             return res.status(401).send({ message: "Voçe não está logado" })
         }
-        
+
         await likeNewsServices(id, userId)
 
         res.status(200).send({ message: "Voce curtiu este post" })
